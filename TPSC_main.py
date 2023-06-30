@@ -1,6 +1,7 @@
-from Dispersions import *
 import sparse_ir
+
 from TPSC import *
+from TPSC.Dispersions import *
 
 """
 Date: June 26, 2023
@@ -9,7 +10,7 @@ Date: June 26, 2023
 # Calculation parameters
 # TODO fichier de paramètres
 n = 1.2      # Density
-T = 0.4    # Temperature     
+T = 0.4    # Temperature
 t = 1.        # First neighbour hopping
 tp = 0      # Second neighbour hopping
 tpp = 0
@@ -18,7 +19,7 @@ nk = nkx*nkx    # Total number of k-points
 W = 9           # Bandwidth (inutile, juste pour se souvenir qu'il faut donner une valeur raisonnable à wmax)
 U = 3.5
 
-# IR basis set 
+# IR basis set
 wmax = 10       # Has to be larger than W
 IR_tol    = 1e-10
 IR_basis_set = sparse_ir.FiniteTempBasisSet(1./T, wmax, eps=IR_tol)
