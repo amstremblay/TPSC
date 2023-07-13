@@ -1,6 +1,10 @@
-from Dispersions import *
-import sparse_ir
 from TPSC import *
+from TPSC.Dispersions import *
+from TPSC.TPSC import *
+
+import sparse_ir
+import numpy as np
+import matplotlib.pyplot as plt
 import sys
 import json
 
@@ -84,10 +88,6 @@ main_results["mu2"] = tpsc.g2.mu
 with open("main_results.json", 'w') as outfile:
     outfile.write(json.dumps(main_results, indent=4))
 
-
-
-######### PLOTTING THE SELF-ENERGY ###########
-import matplotlib.pyplot as plt
 
 
 # EXAMPLE 1 - EVALUATING THE SELF-ENERGY AS A FUNCTION OF WN AT A SPECIFIC K-POINT (pi/2, pi/2)
