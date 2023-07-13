@@ -5,7 +5,11 @@ import sys
 import json
 
 """
-Date: June 26, 2023
+Date: July 13, 2023
+This script runs a TPSC calculation (from a given parameters file) and plots the self-energy
+as a function of w_n and k. 
+Note: This script must be run from the base TPSC folder, using for example the command
+"python3 examples/TPSC_plotting_selfen.py para.json"
 """
 
 
@@ -82,4 +86,39 @@ with open("main_results.json", 'w') as outfile:
 
 
 
+######### PLOTTING THE SELF-ENERGY ###########
+import matplotlib.pyplot as plt
 
+
+# EXAMPLE 1 - EVALUATING THE SELF-ENERGY AS A FUNCTION OF WN AT A SPECIFIC K-POINT (pi/2, pi/2)
+inds = np.arange(-50, 50.01, 1)
+ind_kpoint_node = mesh.get_ind_kpt(np.pi/2, np.pi/2)
+vals_s2 = mesh.get_specific_wn("F", tpsc.selfEnergy[:,ind_kpoint_node], inds)
+plt.figure()
+plt.title("self-energy node")
+plt.plot(inds, vals_s2.real, 'b', label="Re")
+plt.plot(inds, vals_s2.imag, 'r', label="Im")
+plt.xlabel(r"$n$")
+plt.ylabel(r"$\Sigma$")
+plt.legend(loc='best')
+
+# EXAMPLE 2 - EXTRAPOLATING THE SELF-ENERGY AT w_n -> 0 as a function of k
+selfen_zerofreq = mesh.extrapolate_zero_freq(tpsc.selfEnergy, 5).reshape((mesh.nk1, mesh.nk2))
+print(selfen_zerofreq.shape)
+
+plt.figure()
+plt.contourf(2*np.pi*mesh.k1, 2*np.pi*mesh.k2, selfen_zerofreq.real, levels=25, cmap='magma')
+plt.xlabel(r"$k_x$")
+plt.ylabel(r"$k_y$")
+plt.colorbar()
+plt.title(r"real part, extrapolation of self at $\omega_n \to 0$")
+
+
+plt.figure()
+plt.contourf(2*np.pi*mesh.k1, 2*np.pi*mesh.k2, selfen_zerofreq.imag, levels=25, cmap='magma')
+plt.xlabel(r"$k_x$")
+plt.ylabel(r"$k_y$")
+plt.colorbar()
+plt.title(r"imag part, extrapolation of self at $\omega_n \to 0$")
+
+plt.show()
