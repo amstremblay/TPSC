@@ -1,6 +1,8 @@
 from scipy.optimize import brentq
-from Mesh import *
-from Dispersions import *
+
+from TPSC.Dispersions import *
+from TPSC.Mesh import *
+
 """
 Date: June 23, 2023
 """
@@ -23,7 +25,7 @@ class GF:
 
         # Calculate the chemical potential
         self.calcMu()
-    
+
     def calcGiwnkFromMu(self, mu):
         """
         Calculate Green function G(iwn,k) from an input chemical potential
@@ -41,7 +43,7 @@ class GF:
         # Calculation of G
         gtaur = self.mesh.k_to_r(self.giwnk)
         self.gtaur = self.mesh.wn_to_tau('F', gtaur)
-    
+
     def calcGtaumr(self):
         """
         Calculate real space Green function G(tau,-r) [for calculating chi0 and sigma]
@@ -50,7 +52,7 @@ class GF:
         # Calculation of G
         gtaumr = self.mesh.k_to_mr(self.giwnk)
         self.gtaumr = self.mesh.wn_to_tau('F', gtaumr)
-    
+
     def calcNfromG(self, mu):
         """
         Calculate the density from the Green's function and an input chemical potential
@@ -62,7 +64,7 @@ class GF:
         g_tau0 = -self.mesh.IR_basis_set.basis_f.u(1/self.mesh.T)@g_l
 
         return 2*g_tau0.real
-    
+
     def calcMu(self):
         """
         Calculate the chemical potential for the Green's function
@@ -74,5 +76,4 @@ class GF:
 
 
 
-            
-    
+

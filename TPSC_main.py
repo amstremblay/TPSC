@@ -1,6 +1,7 @@
-from Dispersions import *
 import sparse_ir
+
 from TPSC import *
+from TPSC.Dispersions import *
 import sys
 import json
 

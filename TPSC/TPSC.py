@@ -1,4 +1,5 @@
-from GF import *
+from TPSC.GF import *
+
 """
 Date: June 23, 2023
 """
@@ -14,7 +15,7 @@ class TPSC:
         self.U = U
         self.n = n
 
-        
+
     def calcFirstLevelApprox(self):
         """
         Do the first level of approximation of TPSC.
@@ -32,7 +33,7 @@ class TPSC:
 
         # Calculate the spin correlation length
         self.calcXispCommensurate()
-    
+
     def calcChi1(self):
         """
         Function to calculate chi1(q,iqn).
@@ -49,12 +50,12 @@ class TPSC:
         # Fourier transform to (q,iqn)
         self.chi1 = self.mesh.r_to_k(self.chi1)
         self.chi1 = self.mesh.tau_to_wn('B', self.chi1)
-        
+
         # Calculate the trace of chi1
         chi1_trace = np.sum(self.chi1, axis=1)/self.mesh.nk
         chi1_trace_l  = self.mesh.IR_basis_set.smpl_wn_b.fit(chi1_trace)
         self.traceChi1 = self.mesh.IR_basis_set.basis_b.u(0)@chi1_trace_l
-    
+
     def calcUsp(self):
         """
         Function to compute Usp from chi1 and the sum rule.
@@ -64,7 +65,7 @@ class TPSC:
         Uspmax = 2./np.amax(self.chi1).real-1e-7 # Note: the 1e-7 is chosen for stability purposes
 
         # Calculate Usp
-        self.Usp = brentq(lambda m: self.calcSumChisp(m)-self.calcSumRuleChisp(m), Uspmin, Uspmax, disp=True) 
+        self.Usp = brentq(lambda m: self.calcSumChisp(m)-self.calcSumRuleChisp(m), Uspmin, Uspmax, disp=True)
 
     def calcUch(self, Uchmin=0., Uchmax=100.):
         """
@@ -72,7 +73,7 @@ class TPSC:
         Note: calcUsp has to be called before this function.
         """
         # Calculate Uch
-        self.Uch = brentq(lambda m: self.calcSumChich(m)-self.calcSumRuleChich(self.Usp), Uchmin, Uchmax, disp=True) 
+        self.Uch = brentq(lambda m: self.calcSumChich(m)-self.calcSumRuleChich(self.Usp), Uchmin, Uchmax, disp=True)
 
     def calcSumChisp(self, Usp):
         """
@@ -123,7 +124,7 @@ class TPSC:
             return self.n - Usp/self.U*self.n*self.n/2
         else:
             return self.n - Usp/(2*self.U)*(2-self.n)*(2-self.n)+2-2*self.n
-    
+
     def calcSumRuleChich(self, Usp):
         """
         Calculate the charge susceptibility sum rule for a specific Usp and U.
@@ -135,7 +136,7 @@ class TPSC:
             return self.n + Usp/self.U*self.n*self.n/2 - self.n*self.n
         else:
             return self.n + Usp/(2*self.U)*(2-self.n)*(2-self.n)-2+2*self.n - self.n*self.n
-    
+
     def calcXispCommensurate(self):
         """
         Compute the spin correlation length from commensurate spin fluctuations at Q=(pi,pi).
@@ -158,11 +159,11 @@ class TPSC:
                 chisptemp = chisphalf
                 qy = qy+1
                 chisphalf = self.chisp[self.mesh.iw0_b, int(self.mesh.nk1*qx)+qy].real
-            if qy>0: 
+            if qy>0:
                 q0 = 2*np.pi*(qy-1)/self.mesh.nk1
                 qHM = 2*np.pi/self.mesh.nk1*(chispmax/2 - chisptemp)/(chisphalf - chisptemp)
             self.xisp = 1/(np.pi - qHM - q0)
-    
+
     def calcSecondLevelApprox(self):
         """
         Function to calculate the self-energy in the second level of approximation of TPSC.
@@ -171,8 +172,8 @@ class TPSC:
         The TPSC self-energy is: U/8\sum_q(3chi_sp(q)U_sp + chi_ch(q)U_ch)G1(k+q).
         We define V(q) =  U/8(3chi_sp(q)U_sp + chi_ch(q)U_ch) and compute 1/2(V(r)*G(-r)+V(-r)G(r)).
         """
-        # Get V(iqn,q) 
-        V = self.U/8*(3.*self.Usp*(self.chisp)+self.Uch*(self.chich)) 
+        # Get V(iqn,q)
+        V = self.U/8*(3.*self.Usp*(self.chisp)+self.Uch*(self.chich))
 
         # Get V(tau,r)
         Vp = self.mesh.k_to_r(V)
@@ -192,14 +193,14 @@ class TPSC:
         self.g2.calcGtaur()
         self.g2.calcGtaumr()
 
-    
+
     def checkSelfConsistency(self):
         """
         Function to check the self-consistency between one- and two-particle quantities through:
         Tr[Self-Energy*Green's function] = U<n_up n_dn> - Un^2/4
         The -Un^2/4 term on the right hand side is due to the fact that the Hartree term is not included in the self-energy.
         In TPSC, the self-consistency check is exact when computed with the Green's function at the first level of approximation,
-        but it is not with the Green's function G2. The discrepancy between the exact result and the trace with G2 is 
+        but it is not with the Green's function G2. The discrepancy between the exact result and the trace with G2 is
         a check of the validity of the TPSC calculation.
         """
         # Calculate the traces
@@ -208,7 +209,7 @@ class TPSC:
 
         # Calculate the expected result
         self.exactTraceSelfG = self.U*self.docc-self.U*self.n*self.n/4
-    
+
     def calcTraceSelfG(self,level):
         """
         Calculate the trace of Self-Energy*G^(level)
@@ -225,9 +226,9 @@ class TPSC:
             trace = np.sum(self.selfEnergy*self.g2.giwnk, axis=1)/self.mesh.nk
             trace_l  = self.mesh.IR_basis_set.smpl_wn_f.fit(trace)
             self.traceSG2 = self.mesh.IR_basis_set.basis_f.u(0)@trace_l
-            
 
-    
+
+
 
 
 
