@@ -1,0 +1,32 @@
+[project]
+name = "TPSC"
+version = "0.0.1"
+authors = [
+    {name = "André-Marie Tremblay", email = "andre-marie.tremblay@usherbrooke.ca"},
+    {name = "Camille Lahaie", email = "camille.lahaie@usherbrooke.ca"},
+    {name = "Chloé-Aminata Gauvin-Ndiaye", email = "chloe-aminata.gauvin-ndiaye@usherbrooke.ca"},
+    {name = "Jérôme Leblanc", email = "jerome.leblanc@usherbrooke.ca"},
+    {name = "Moise Rousseau", email = "moise.rousseau@usherbrooke.ca"},
+    {name = "Nicolas Martin", email = "nicolas.b.martin@usherbrooke.ca"}
+]
+description = "A Python library that allows the computation of Hubbard model related functions and quantities (such as the self-energy and Green's function) using the Two-Particle-Self-Consistent (TPSC) approach first described in Vick and Tremblay (1997). "
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "TODO"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "scipy",
+    "sparse_ir",
+    "xprec",
+]
+
+[project.scripts]
+TPSC = "TPSC.CLI_scripts:TPSC_cli"

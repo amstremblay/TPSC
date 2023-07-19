@@ -6,43 +6,47 @@ A Python library that allows the computation of Hubbard model related functions 
 
 ## Table of contents
 
-- [Set up](#setup)
-    - [Requirements](#requirements)
-    - [Installation](#installation)
-- [Getting Started](#getting-started)
-    - [Examples](#examples)
+- [Installation](#installation)
+- [Documentation and tutorials](#documentation-and-tutorials)
+- [Examples](#examples)
+- [TODO](#TODO)
 
 
-## Setup
+## Installation
 
-### Requirements
-
-You will find the required packages in the `./requirements.txt` file. You can install them by running
+This package will be soon available on PyPI. 
+Meanwhile, you can install it by cloning this repository and using pip:
 
 ```bash
-pip install requirements.txt
+git clone https://github.com/amstremblay/TPSC
+cd TPSC
+pip install .
 ```
-
-in the root directory.
-
-### Installation
-
-This package is not yet available via PyPI. You'll have to clone it localy.
 
 ## Documentation and tutorials
 
 TODO Create docs and tutorials, then add link here.
 
-## Getting started
 
-The quickest way to start doing calculations using TPSC is to run the main script by
+## Examples
+
+The `examples/` directory contains some examples for you to experiment with and get familiar with different use cases.
+
+The quickest way to start doing calculations using TPSC is to call the `TPSC` executable from the command line and provide input parameters in a JSON `para.json` file (see the `examples` directory):
 
 ```bash
-python TPSC_main.py
+TPSC para.json
 ```
 
-### Examples
+TPSC could also be use in Python scripts for a finner control over input parameters or to post-process the results of TPSC calculations such as plotting observables.
 
-The `./examples/` directory contains some examples for you to experiement with and get familiar with different use cases.
 
-TODO
+## TODO
+
+* Release on PyPi
+* Automated tests with `pytest`
+* Automated documentation on GitHub
+* More examples
+* JSON output
+* Inclure TPSC+ ?
+* Inclure binding avec TRIQS ?

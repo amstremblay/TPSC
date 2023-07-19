@@ -1,21 +1,50 @@
-from TPSC.GF import *
+from .GF import *
+from .Mesh import Mesh2D
+from .Dispersions import *
+import sparse_ir
+import matplotlib.pyplot as plt
 
 """
 Date: June 23, 2023
 """
 class TPSC:
-    def __init__(self, mesh, U, n):
+    def __init__(self, params):
         """
         Class to perform a TPSC calculation.
-        mesh: Mesh object from the Mesh.py file
+        params: Dictionnary of keyword / value of the input parameters
         n: input density
         """
-        # Initialize the variables
-        self.mesh = mesh
-        self.U = U
-        self.n = n
+        # Generate the dispersion and the k-mesh
+        self.t = params["t"] # First neighbour hopping
+        self.tp = params["tp"] # Second neighbour hopping
+        self.tpp = params["tpp"] # Third neighbour hopping
+        self.nkx = params["nkx"] # Number of k-points in one space direction
+        k1, k2 = np.meshgrid(np.arange(self.nkx)/self.nkx, np.arange(self.nkx)/self.nkx)    # k-point grid
+        if params["dispersion"].lower() == "square":
+            dispersion = calcDispersion2DSquare(k1, k2, self.nkx*self.nkx, t=self.t, tp=self.tp, tpp=self.tpp)
+        elif params["dispersion"].lower() == "triangle":
+            dispersion = calcDispersion2DTriangle(k1, k2, self.nkx*self.nkx, t=self.t, tp=self.tp)
+            
+        # Compute the bandwidth and define the IR basis 
+        self.T = params["T"] # Temperature
+        wmax_mult = params["wmax_mult"] # for IR basis, multiple of bandwidth to use as wmax (must be greater than 1)
+        IR_tol = params["IR_tol"] # for IR basis, tolerance of intermediate representation
+        wmax = dispersion.max() - dispersion.min() * wmax_mult      
+        IR_basis_set = sparse_ir.FiniteTempBasisSet(1./self.T, wmax, eps=IR_tol)
+        self.mesh = Mesh2D(IR_basis_set, self.nkx, self.nkx, self.T, dispersion)
+        
+        # TPSC parameters
+        self.n = params["n"] # Density
+        self.U = params["U"] # ?
+        
+        # Member to hold the results
+        self.selfEnergy = None
+        self.main_results = None
+        self.Uch = None
+        self.Usp = None
+        self.docc = None
 
-
+    
     def calcFirstLevelApprox(self):
         """
         Do the first level of approximation of TPSC.
@@ -226,13 +255,84 @@ class TPSC:
             trace = np.sum(self.selfEnergy*self.g2.giwnk, axis=1)/self.mesh.nk
             trace_l  = self.mesh.IR_basis_set.smpl_wn_f.fit(trace)
             self.traceSG2 = self.mesh.IR_basis_set.basis_f.u(0)@trace_l
-
-
-
-
-
-
-
-
-
-
+    
+    
+    def run(self):
+        """
+        Run the TPSC method with the given parameters
+        """
+        # Make the calculation
+        self.calcFirstLevelApprox()
+        self.calcSecondLevelApprox()
+        self.checkSelfConsistency()
+        
+        # Prepare output
+        self.main_results = {
+            "Usp" : self.Usp,
+            "Uch" : self.Uch,
+            "doubleocc" : self.docc,
+            "Trace_chi1" : self.traceChi1,
+            "Trace_Self2_G1" : self.traceSG1,
+            "Trace_Self2_G2" : self.traceSG2,
+            "U*doubleocc-U*n/4" : self.exactTraceSelfG,
+            "mu1" : self.g1.mu,
+            "mu2" : self.g2.mu,
+        }
+        return self.main_results
+    
+    def printResults(self):
+        """
+        Print results to screen
+        """
+        if self.main_results is None:
+            print("TPSC was not run, please run the TPSC before printing the results.")
+            return
+        for key,value in self.main_results.items():
+            print(f"{key}: {value:5e}")
+        return
+    
+    def writeResultsJSON(self, filename):
+        """
+        Print results to screen
+        """
+        if self.main_results is None:
+            print("TPSC was not run, please run the TPSC before printing the results.")
+            return
+        out_results = {
+            "Usp" : self.Usp,
+            "Uch" : self.Uch,
+            "doubleocc" : self.docc,
+            "Trace_chi1" : [self.traceChi1.real, self.traceChi1.imag],
+            "Trace_Self2_G1" : [self.traceSG1.real, self.traceSG1.imag],
+            "Trace_Self2_G2" : [self.traceSG2.real, self.traceSG2.imag],
+            "U*doubleocc-U*n/4" : self.exactTraceSelfG,
+            "mu1" : self.g1.mu,
+            "mu2" : self.g2.mu,
+        }
+        with open(filename, 'w') as outfile:
+           outfile.write(json.dumps(out, indent=4))
+        return
+    
+    def plotSelfEnergyVsWn(self, coordinates, Wn_range, show=True, ax=None):
+        """
+        Evaluate and plot the self-energy as a function of Wn for a specific k-point.
+        coordinates: The k-point to evaluate the self-energy
+        Wn_range: x-axis range
+        show: Whether or not showing the grah
+        ax: A matplotlib axis to plot the grah
+        """
+        inds = np.arange(Wn_range[0], Wn_range[1]+1, 1)
+        ind_kpoint_node = self.mesh.get_ind_kpt(coordinates[0], coordinates[1])
+        vals_s2 = self.mesh.get_specific_wn("F", self.selfEnergy[:,ind_kpoint_node], inds)
+        if ax is None:
+            fig,ax = plt.subplots()
+        ax.set_title("Self-energy node")
+        ax.plot(inds, vals_s2.real, 'b', label="Re")
+        ax.plot(inds, vals_s2.imag, 'r', label="Im")
+        ax.set_xlabel(r"$n$")
+        ax.set_ylabel(r"$\Sigma$")
+        ax.grid()
+        ax.legend(loc='best')
+        if show:
+            plt.show()
+        return ax
