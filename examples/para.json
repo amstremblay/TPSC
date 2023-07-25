@@ -1,5 +1,5 @@
 {
-    "dispersion" : "square",
+    "dispersion_scheme" : "square",
     "t" : 1,
     "tp" : 1,
     "tpp" : 0,

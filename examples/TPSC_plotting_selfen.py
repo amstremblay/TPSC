@@ -1,21 +1,9 @@
-from TPSC import *
-from TPSC.Dispersions import *
-from TPSC.TPSC import *
-
-import sparse_ir
+import TPSC
 import numpy as np
-import matplotlib.pyplot as plt
-import sys
-import json
 
-"""
-Date: July 13, 2023
-This script runs a TPSC calculation (from a given para.json parameters file) and plots the self-energy
-as a function of w_n and k.
-"""
-
+# Pack the TPSC input parameters into a dictionary
 parameters = {
-    "dispersion" : "square",  # Dispersion model
+    "dispersion_scheme" : "square",  # Dispersion model
     "t" : 1,                  # First neighbour hopping
     "tp" : 1,                 # Second neighbour hopping
     "tpp" : 0,                # Third neighbour hopping
@@ -28,7 +16,7 @@ parameters = {
 }
 
 # Do the TPSC calculation
-tpsc = TPSC(parameters)
+tpsc = TPSC.TPSC(**parameters)
 tpsc.run()
 tpsc.printResults()
 mesh = tpsc.mesh

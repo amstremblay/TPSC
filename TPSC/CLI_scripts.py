@@ -26,7 +26,7 @@ def TPSC_cli():
     with open(para_filename, 'r') as infile:
         params = json.load(infile)
         
-    tpsc = TPSC(params)
+    tpsc = TPSC(**params)
     tpsc.run()
     
     if len(sys.argv) == 3:

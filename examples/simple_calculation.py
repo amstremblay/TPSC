@@ -1,8 +1,8 @@
 import TPSC
-import json
 
+# Pack the TPSC input parameters into a dictionary
 parameters = {
-    "dispersion" : "square",  # Dispersion model
+    "dispersion_scheme" : "square",  # Dispersion model
     "t" : 1,                  # First neighbour hopping
     "tp" : 1,                 # Second neighbour hopping
     "tpp" : 0,                # Third neighbour hopping
@@ -14,9 +14,7 @@ parameters = {
     "IR_tol" : 1e-12          # # for IR basis, tolerance of intermediate representation
 }
 
-tpsc = TPSC.TPSC(parameters)
+tpsc = TPSC.TPSC(**parameters) #Note: the "**" expands the dictionary
 out = tpsc.run()
 tpsc.printResults()
-
-#with open("main_results.json", 'w') as outfile:
-#    outfile.write(json.dumps(out, indent=4))
+tpsc.writeResultsJSON("main_results.json")
