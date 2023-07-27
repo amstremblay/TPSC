@@ -9,6 +9,7 @@ A Python library that allows the computation of Hubbard model related functions 
 - [Installation](#installation)
 - [Documentation and tutorials](#documentation-and-tutorials)
 - [Examples](#examples)
+- [Tests](#tests)
 - [TODO](#TODO)
 
 
@@ -25,7 +26,16 @@ pip install .
 
 ## Documentation and tutorials
 
-TODO Create docs and tutorials, then add link here.
+Documentation sources are located in the ``docs`` folder.
+To build the documentation locally:
+
+```bash
+pip install .[docs]
+cd docs
+make html
+```
+
+You can access the documentation in your browser by opening ``docs/build/html/index.html``.
 
 
 ## Examples
@@ -40,13 +50,27 @@ TPSC para.json
 
 TPSC could also be use in Python scripts for a finner control over input parameters or to post-process the results of TPSC calculations such as plotting observables.
 
+## Tests
+
+The ``tests`` folder provides automated tests that can be run to ensure TPSC is behaving correctly on your system.
+To run the tests:
+
+```bash
+pip install .[tests]
+cd tests
+pytest
+```
+
+Every test should pass.
+If not, please create an issue with the output of the above code and a description of your system.
+
 
 ## TODO
 
 * Release on PyPi
+* Fail to install when there is an venv named env2
 * Automated tests with `pytest`
-* Automated documentation on GitHub
+* Automated documentation release on GitHub
 * More examples
-* JSON output
 * Inclure TPSC+ ?
 * Inclure binding avec TRIQS ?
