@@ -6,43 +6,71 @@ A Python library that allows the computation of Hubbard model related functions 
 
 ## Table of contents
 
-- [Set up](#setup)
-    - [Requirements](#requirements)
-    - [Installation](#installation)
-- [Getting Started](#getting-started)
-    - [Examples](#examples)
+- [Installation](#installation)
+- [Documentation and tutorials](#documentation-and-tutorials)
+- [Examples](#examples)
+- [Tests](#tests)
+- [TODO](#TODO)
 
 
-## Setup
+## Installation
 
-### Requirements
-
-You will find the required packages in the `./requirements.txt` file. You can install them by running
+This package will be soon available on PyPI. 
+Meanwhile, you can install it by cloning this repository and using pip:
 
 ```bash
-pip install requirements.txt
+git clone https://github.com/amstremblay/TPSC
+cd TPSC
+pip install .
 ```
-
-in the root directory.
-
-### Installation
-
-This package is not yet available via PyPI. You'll have to clone it localy.
 
 ## Documentation and tutorials
 
-TODO Create docs and tutorials, then add link here.
-
-## Getting started
-
-The quickest way to start doing calculations using TPSC is to run the main script by
+Documentation sources are located in the ``docs`` folder.
+To build the documentation locally:
 
 ```bash
-python TPSC_main.py
+pip install .[docs]
+cd docs
+make html
 ```
 
-### Examples
+You can access the documentation in your browser by opening ``docs/build/html/index.html``.
 
-The `./examples/` directory contains some examples for you to experiement with and get familiar with different use cases.
 
-TODO
+## Examples
+
+The `examples/` directory contains some examples for you to experiment with and get familiar with different use cases.
+
+The quickest way to start doing calculations using TPSC is to call the `TPSC` executable from the command line and provide input parameters in a JSON `para.json` file (see the `examples` directory):
+
+```bash
+TPSC para.json
+```
+
+TPSC could also be use in Python scripts for a finner control over input parameters or to post-process the results of TPSC calculations such as plotting observables.
+
+## Tests
+
+The ``tests`` folder provides automated tests that can be run to ensure TPSC is behaving correctly on your system.
+To run the tests:
+
+```bash
+pip install .[tests]
+cd tests
+pytest
+```
+
+Every test should pass.
+If not, please create an issue with the output of the above code and a description of your system.
+
+
+## TODO
+
+* Release on PyPi
+* Fail to install when there is an venv named env2
+* Automated tests with `pytest`
+* Automated documentation release on GitHub
+* More examples
+* Inclure TPSC+ ?
+* Inclure binding avec TRIQS ?
