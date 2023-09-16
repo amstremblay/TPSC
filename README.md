@@ -1,7 +1,7 @@
 <h1 align="center">TPSC</h1>
 <p align="center">
 A Python library that allows the computation of Hubbard model related functions and quantities (such as the self-energy and Green's function) using the Two-Particle-Self-Consistent (TPSC) approach first described in
-[<a href="https://arxiv.org/abs/cond-mat/9702188">Vick and Tremblay, 1997</a>].
+[<a href="https://arxiv.org/abs/cond-mat/9702188">Vilk and Tremblay, 1997</a>]. See additional references in the documentation. 
 </p>
 
 ## Table of contents
