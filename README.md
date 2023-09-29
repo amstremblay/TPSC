@@ -10,6 +10,7 @@ A Python library that allows the computation of Hubbard model related functions 
 - [Documentation and tutorials](#documentation-and-tutorials)
 - [Examples](#examples)
 - [Tests](#tests)
+- [Citations](#Citations)
 - [TODO](#TODO)
 
 
@@ -64,6 +65,9 @@ pytest
 Every test should pass.
 If not, please create an issue with the output of the above code and a description of your system.
 
+## Citations
+
+See About_TPSC.rst
 
 ## TODO
 
