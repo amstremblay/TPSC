@@ -19,6 +19,8 @@ author = 'André-Marie Tremblay, Camille Lahaie, Chloé-Aminata Gauvin, Jérôme
 
 extensions = ['sphinx.ext.autodoc']
 
+autodoc_mock_imports = ["scipy", "numpy", "sparse_ir", "matplotlib"]
+
 templates_path = ['_templates']
 exclude_patterns = []
 

@@ -24,12 +24,12 @@ def test_compare():
     
     obj = TPSC.TPSC(**parameters)
     results = obj.run()
-    print(results)
+    print("this version:", results)
     
     # Load the reference results
     with open("ref_f5dc1ce.json", 'r') as reference_filename:
         reference_results = json.load(reference_filename)
-    print(reference_results)
+    print("reference:", reference_results)
         
     # Compare
     for key in reference_results.keys():

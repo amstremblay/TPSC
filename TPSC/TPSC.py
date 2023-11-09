@@ -10,12 +10,16 @@ class TPSC:
     Class to set up a TPSC calculation.
     Calculation is carried using the ``run()`` method.
     
+    :param n: Density
+    :type n: double
+    :param U: Hubbard interaction
+    :type U: double
     :param t: First neighbour hopping
-    :type t: int
+    :type t: double
     :param tp: Second neighbour hopping
-    :type tp: int
+    :type tp: double
     :param tpp: Third neighbour hopping
-    :type tpp: int
+    :type tpp: double
     :param nkx: Number of k-points in one space direction
     :type nkx: int
     :param dispersion_scheme: Dispersion scheme (either `triangle` or `square`)
@@ -23,11 +27,11 @@ class TPSC:
     :param T: Temperature
     :type T: double
     :param wmax_mult: For IR basis, multiple of bandwidth to use as wmax (must be greater than 1)
-    :type wmax_mult: double
+    :type wmax_mult: double, optional
     :param IR_tol: For IR basis, tolerance of intermediate representation (default = 1e-12)
     :type IR_tol: double, optional
     """
-    def __init__(self, n, U, t, tp, tpp, nkx, dispersion_scheme, T, wmax_mult, IR_tol=1e-12):
+    def __init__(self, n, U, t, tp, tpp, nkx, dispersion_scheme, T, wmax_mult=10, IR_tol=1e-12):
         # Generate the dispersion and the k-mesh
         self.t = t # First neighbour hopping
         self.tp = tp # Second neighbour hopping
@@ -319,7 +323,7 @@ class TPSC:
             "Trace_chi1" : self.traceChi1,
             "Trace_Self2_G1" : self.traceSG1,
             "Trace_Self2_G2" : self.traceSG2,
-            "U*doubleocc-U*n/4" : self.exactTraceSelfG,
+            "U*doubleocc-U*n^2/4" : self.exactTraceSelfG,
             "mu1" : self.g1.mu,
             "mu2" : self.g2.mu,
         }
