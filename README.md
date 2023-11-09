@@ -26,7 +26,9 @@ pip install .
 
 ## Documentation and tutorials
 
-Documentation sources are located in the ``docs`` folder.
+Online documentation is living on ReadTheDocs: [https://tpsc.readthedocs.io](https://tpsc.readthedocs.io)
+
+Documentation can also be build locally with the sources located in the ``docs`` folder.
 To build the documentation locally:
 
 ```bash
@@ -68,9 +70,7 @@ If not, please create an issue with the output of the above code and a descripti
 ## TODO
 
 * Release on PyPi
-* Fail to install when there is an venv named env2
 * Automated tests with `pytest`
-* Automated documentation release on GitHub
 * More examples
 * Inclure TPSC+ ?
 * Inclure binding avec TRIQS ?
