@@ -10,6 +10,7 @@ A Python library that allows the computation of Hubbard model related functions 
 - [Documentation and tutorials](#documentation-and-tutorials)
 - [Examples](#examples)
 - [Tests](#tests)
+- [Citations](#Citations)
 - [TODO](#TODO)
 
 
@@ -66,6 +67,9 @@ pytest
 Every test should pass.
 If not, please create an issue with the output of the above code and a description of your system.
 
+## Citations
+
+See About_TPSC.rst
 
 ## TODO
 
@@ -74,3 +78,13 @@ If not, please create an issue with the output of the above code and a descripti
 * More examples
 * Inclure TPSC+ ?
 * Inclure binding avec TRIQS ?
+
+## License and citation
+This software is released under the MIT License. See LICENSE.txt for details.
+
+If you find the intermediate representation, sparse sampling, or this software useful in your research, please consider citing the following papers:
+
+Hiroshi Shinaoka et al., Phys. Rev. B 96, 035147 (2017)
+Jia Li et al., Phys. Rev. B 101, 035144 (2020)
+Markus Wallerberger et al., SoftwareX 21, 101266 (2023)
+If you are discussing sparse sampling in your research specifically, please also consider citing an independently discovered, closely related approach, the MINIMAX isometry method (Merzuk Kaltak and Georg Kresse, Phys. Rev. B 101, 205145, 2020).
