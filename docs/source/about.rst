@@ -1,5 +1,5 @@
 About TPSC
-###########
+##########
 
 
 Authors & contributors
@@ -26,7 +26,9 @@ TPSC is a part of our scientific work and we kindly request that
 projects using it include a citation to the following link. In
 order to help you, we provide a BibTeX entry [#triqs]_.
 
-This library is based on the [sparse-IR](www.sparseir.com), numpy, scipy and xprec software
+This library is based on the `sparse-IR
+<https://spm-lab.github.io/sparse-ir-tutorial/index.html>`_, numpy, scipy and
+xprec software
 
 .. [#triqs] `O. Parcollet, M. Ferrero, T. Ayral, H. Hafermann, I. Krivenko, L. Messio, and P. Seth, Comp. Phys. Comm. 196, 398-415 (2015) <http://dx.doi.org/10.1016/j.cpc.2015.04.023>`_ (:download:`bibtex file <triqs.bib>`)
 
