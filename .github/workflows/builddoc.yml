@@ -1,0 +1,30 @@
+name: Build Documentation CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+    
+    - name: Install prerequisites
+      run: pip install sphinx==8.0.2 sphinx-rtd-theme==3.0.2
+    
+    - name: Build documentation
+      run: sphinx-build ./docs/source _build/
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_branch: gh-pages
+        publish_dir: _build/
+        force_orphan: true
