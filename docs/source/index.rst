@@ -28,3 +28,4 @@ Indices and tables
    user_guide
    theory_guide
    examples
+   about
